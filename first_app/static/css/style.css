@@ -1,0 +1,15 @@
+body{
+    background-color: rgba(1, 76, 119, 0.877);
+
+    color:white
+
+}
+
+.container{
+    display:flex;
+    justify-content: space-around
+}
+
+#quotes{
+    border:1px solid black
+}

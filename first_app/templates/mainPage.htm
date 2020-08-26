@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Quotes </title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <h1> Welcome, {{loggedInUser.firstName}}</h1>
+    <h3><a href="/logout">Log Out</a></h3>
+    <div class="container2">
+        <div id="quotes">
+            <h2>Quoteable Quotes:</h2>
+            {% for quoteObj in allQuotes %}
+
+            <p>Quote: {{quoteObj.content}}</p>
+            <p>Author: {{quoteObj.author}}</p>
+            <p>Posted By:<a href="/userPage/{{quoteObj.uploader.id}}">{{quoteObj.uploader.firstName}}</a></p>
+            <a href="/like/{{quoteObj.id}}">Like</a>
+            
+            {% if loggedInUser == quoteObj.uploader %}
+            <a href="/delete/{{quoteObj.id}}">Delete</a>
+            <a href="/edit/{{quoteObj.id}}">Edit</a>
+            {% endif %}
+            {% endfor %}
+        </div>
+            <br>
+            <br>
+        <div id="favQuotes">
+            <h3>Favorite Quotes:</h3>
+            {% for quoteObj in likedQuotes %}
+            <p>Quote: {{quoteObj.content}}</p>
+            <p>Author: {{quoteObj.author}}</p>
+            <p>Posted By:<a href="/userPage/{{quoteObj.uploader.id}}">{{quoteObj.uploader.firstName}}</a></p>
+            <a href="/unlike/{{quoteObj.id}}">Unlike</a>
+            {% endfor %}
+
+            {% if loggedInUser == quoteObj.uploader %}
+            <a href="/delete/{{quoteObj.id}}">Delete</a>
+            <a href="/edit/{{quoteObj.id}}">Edit</a>
+            {% endif %}
+        </div>
+            <div id="userpannel">
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{message}}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <h1>Add a Quote</h1>
+                <form action="/createQuote" method="POST" class="form-horizontal" role="form">
+                    {% csrf_token %}
+                        <p>Author:</p>
+                        <input type="text" name='form_author'>
+                        <p>Quote:</p>
+                        <div class="form-group">
+                            <label for="textarea" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <textarea name='form_quote' id="textarea" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</body>
+</html>
